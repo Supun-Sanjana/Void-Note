@@ -68,26 +68,12 @@ Run end-to-end tests:
 npm run test:e2e
 ```
 
-## 🤝 Contributing
 
-We welcome contributions of all kinds! Whether it's bug fixes, feature enhancements, documentation improvements, or design help — every bit counts.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-## 📄 License
-
-This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
-
----
 
 ## ❤️ Credits
 
-Made with love by [Your Name or Team]  
+Made with love by  S Supun 
 Inspired by minimalism and the need for a fast, secure way to take notes.
 
 [![GitHub stars](https://img.shields.io/github/stars/yourusername/void-note?style=social)](https://github.com/yourusername/void-note)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-
----
-
-Let me know if you'd like this tailored for a specific framework (like Flutter, Vue, etc.) or include screenshots, badges, or live demo links!
