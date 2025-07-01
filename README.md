@@ -1,4 +1,4 @@
-# 🕳️ Void Note – Minimalist, Powerful Task Management App
+#  Void Note – Minimalist, Powerful Task Management App
 
 > *"Capture thoughts, ideas, and tasks without distraction."*
 
