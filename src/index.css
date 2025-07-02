@@ -1,2 +1,12 @@
 @import "tailwindcss";
 
+/* Add to your main CSS file (e.g., index.css or App.css) */
+body {
+  background: radial-gradient(ellipse 800px 600px at top center, #581c87 0%, #1e1b4b 35%, #00000E 70%), #00000E;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  font-family: exo, sans-serif;
+ 
+}

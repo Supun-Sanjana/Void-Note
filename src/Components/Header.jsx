@@ -5,32 +5,44 @@ import lightMode from '../../Images/lightm.png';
 
 const Header = () => {
   return (
-    <header className="bg-[#5a4fff] backdrop-blur-3xl opacity-50 rounded-b-[20px]">
-      <div className="container mx-auto p-4 flex justify-between items-center">
-        {/* Logo and Title */}
-        <div className="logo flex items-center space-x-2">
-          <img src={logo} alt="Logo" className="w-8 h-8" />
-          <h3 className="text-xl font-bold text-[#f8f9ff]">Void Note</h3>
-        </div>
 
-        {/* Navigation Links */}
-        <div className="nav-links flex space-x-4">
-          <a href="#" className="hover:text-[#ffffff]">Features</a>
-          <a href="#" className="hover:text-[#ffffff]">Pricing</a>
-          <a href="#" className="hover:text-[#ffffff]">About us</a>
-          <a href="#" className="hover:text-[#ffffff]">Contact</a>
+    <header className="relative z-10">
+      <nav className="backdrop-blur-md bg-white/10 border-b border-white/20 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            {/* Logo */}
+            <div className="flex items-center space-x-2">
+              <img src={logo} alt="Logo" className="w-8 h-8" />
+              <span className="text-white font-semibold text-lg">Void Note</span>
+            </div>
+            
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center space-x-8">
+              <a href="#" className="text-white/90 hover:text-white transition-colors duration-200">Features</a>
+              <a href="#" className="text-white/90 hover:text-white transition-colors duration-200">Pricing</a>
+              <a href="#" className="text-white/90 hover:text-white transition-colors duration-200">About us</a>
+              <a href="#" className="text-white/90 hover:text-white transition-colors duration-200">Contact</a>
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="flex items-center space-x-3">
+              <button className="px-4 py-2 cursor-pointer text-white/90 hover:text-white transition-colors duration-200">
+                Log in
+              </button>
+              <button className="px-2 py-2 ">
+              
+                  <img src={lightMode} alt="Light Mode" className="w-8 h-8 cursor-pointer " />
+                
+              </button>
+            </div>
+          </div>
         </div>
-
-        <div className="flex space-x-4 justify-between items-center"> 
-          <button className='w-[110px] h-[42px] bg-[#676BEB] text-white rounded-xl '> Login</button>
-          <img src={lightMode} alt="light mode toggle button"
-          className=''
-           />
-        </div>
-
-        
-      </div>
+      </nav>
     </header>
+ 
+
+    
+    
   );
 };
 
