@@ -3,7 +3,7 @@ import  download from '../../Images/downloadicon.png';
 const Hero = () => {
   return (
     <>
-     <section className="relative z-10 px-4 sm:px-6 lg:px-8 pt-20 pb-32">
+     <section className="relative z-10 px-4 sm:px-6 lg:px-8 pt-20 pb-12">
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-5xl md:text-7xl  text-white mb-8 leading-tight">
           Focus. Simplify. Achieve.
