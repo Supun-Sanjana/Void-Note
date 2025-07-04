@@ -2,7 +2,7 @@
 import './App.css'
 import Header from './Components/Header'
 import Hero from './Components/Hero'
-import Features from './Components/Features'
+import Features from './Components/Features/Features'
 
 function App() {
 
