@@ -1,11 +1,11 @@
 import React from 'react';
 import FeaturesCard from './FeaturesCard';
-import note from '../../../Images/note-icon.png';
-import taskList from '../../../Images/tak-list.png';
-import offline from '../../../Images/offline.png';
-import support from '../../../Images/support.png';
-import capture from '../../../Images/capture.png';
-import sync from '../../../Images/sync.png';
+import note from '../../../Images/note.svg';
+import taskList from '../../../Images/list.svg';
+import offline from '../../../Images/offline.svg';
+import support from '../../../Images/support.svg';
+import capture from '../../../Images/capture.svg';
+import sync from '../../../Images/sync.svg';
 
 
 const Features = () => {

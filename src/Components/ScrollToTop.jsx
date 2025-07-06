@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import scrollIcon from "../../Images/scrollToTop.png"
+import scrollIcon from "../../Images/scroll.svg"
 
 const ScrollToTop = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -32,7 +32,7 @@ const ScrollToTop = () => {
                 className={`fixed bottom-8 right-0 z-50 
                     transition-all duration-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
             >
-                <img src={scrollIcon} className="w-20" alt="Scroll to top" />
+                <img src={scrollIcon} className="w-20 cursor-pointer" alt="Scroll to top" />
             </button>
         </div>
     );
