@@ -11,3 +11,13 @@ module.exports = {
     }
   }
 }
+
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        'pragati': ['Pragati Narrow', 'sans-serif'],
+      }
+    }
+  }
+}

@@ -1,4 +1,6 @@
 import React from 'react'
+import TestermonialCard from './TestermonialCard'
+import qt from '../../../Images/qut.svg'
 
 const Testermonial = () => {
   return (
@@ -11,7 +13,11 @@ const Testermonial = () => {
             <p className="text-lg md:text-xl text-white/70">
                 Don't just take our word for it. Hear from students and creatives who've transformed their productivity with VoidNote.
             </p>
+
+           
                 </div>
+    <TestermonialCard/>
+               
     </div>
   )
 }
