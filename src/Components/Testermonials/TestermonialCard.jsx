@@ -3,32 +3,25 @@ import qt from "../../../Images/qut.svg"
 import woman from "../../../Images/woman.svg"
 import man from "../../../Images/men.svg"
 
-const TestermonialCard = () => {
-
-    const card = [
-        {
-          id:'1',
-          icon:qt,
-          description:"VoidNote has revolutionized how I manage my studies. The distraction-free design is a game-changer for deep work sessions",
-          image:woman,
-          user:"A student testing VoidNote",
-          role:"University Student"
-        },
-        {
-          id:'2',
-          icon:qt,
-          description:"As a graphic designer, I appreciate clean interfaces. VoidNote's minimalism helps me focus on creative tasks without visual clutter",
-          image:man,
-          user:"David Lee",
-          role:"Graphic Designer"
-        },
-    ]
-
+const TestimonialCard = ({ icon, description, image, user, role }) => {
   return (
-    <div>
-   
+    <div className='flex flex-col space-y-4 backdrop-blur-md border border-white/10 
+      rounded-xl p-6 hover:bg-[#010018] hover:border-white/20 transition-all duration-300 
+      hover:transform hover:scale-102 group bg-[#0C0C2F] mx-3 mb-3 '>
+      
+      <img src={icon} alt="icon" className='w-6 h-11' />
+      
+      <h3 className='text-white text-xl'>{description}</h3>
+      
+      <div className='flex mt-4 align-center'>
+        <img src={image} className="w-12 h-12 rounded-full" alt="" />
+        <div className='ml-3'>
+          <span className='text-white'>{user}</span><br />
+          <span className='text-gray-400 text-md'>{role}</span>
+        </div>
+      </div>
     </div>
   )
 }
 
-export default TestermonialCard 
+export default TestimonialCard
