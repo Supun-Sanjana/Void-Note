@@ -5,8 +5,8 @@ import darkMode from '../../Images/dark-mod.svg';
 
 const Header = () => {
   return (
-    <header className="relative z-10">
-      <nav className="rounded-b-[40px] backdrop-blur-md bg-white/10 border-b border-white/20 shadow-lg">
+    <header className=" z-100 sticky top-0">
+      <nav className="rounded-b-[40px] backdrop-blur-lg bg-white/10 border-b border-white/20 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             {/* Logo */}
