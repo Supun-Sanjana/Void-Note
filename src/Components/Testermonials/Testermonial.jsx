@@ -26,7 +26,7 @@ const Testermonial = () => {
   ]
 
   return (
-    <div className='relative z-10 px-4 sm:px-6 lg:px-8 py-20'>
+    <div className='relative z-10 px-4 sm:px-6 lg:px-8 py-20 '>
 
 
       <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 justify-center flex">
@@ -38,8 +38,6 @@ const Testermonial = () => {
         their productivity with VoidNote.
       </p>
 
-
-      <div className='flex flex-col md:flex-row justify-center gap-2 max-w-7xl mx-auto'>
 
 
         {testimonials.map((test, index) => (

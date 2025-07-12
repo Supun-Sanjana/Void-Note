@@ -5,9 +5,9 @@ import man from "../../../Images/men.svg"
 
 const TestimonialCard = ({ icon, description, image, user, role }) => {
   return (
-    <div className='flex flex-col space-y-4 backdrop-blur-md border border-white/10 
+    <div className='  flex flex-col space-y-4 backdrop-blur-md border border-white/10 
       rounded-xl p-6 hover:bg-[#010018] hover:border-white/20 transition-all duration-300 
-      hover:transform hover:scale-102 group bg-[#0C0C2F] mx-3 mb-3 py-9 px-8'>
+      hover:transform hover:scale-102 group bg-[#0C0C2F] mx-3 mb-3 py-9 px-8 '>
       
       <img src={icon} alt="icon" className='w-6 h-11' />
       
