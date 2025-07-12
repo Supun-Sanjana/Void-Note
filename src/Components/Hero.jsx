@@ -16,17 +16,15 @@ const Hero = () => {
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button className="text-[#676BEB] px-8 py-3 bg-white cursor-pointer  font-semibold rounded-lg
-           hover:bg-[#676BEB] hover:text-white transition-colors duration-200 shadow-lg">
+           hover:bg-[#676BEB] hover:text-white transition-colors duration-200 shadow-lg w-65">
             Get Started                             
           </button>
           <button className="px-8 py-3 backdrop-blur-md cursor-pointer bg-white/10 border
            border-white/20 text-white font-semibold rounded-lg hover:bg-white/20 
-           transition-all duration-200 flex items-center space-x-2" style={{
-            
-          }}>
+           transition-all duration-200 flex items-center space-x-2" >
+
            <img src={download} alt="download icon" />
-              <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
-            
+              
             <span>Download for Desktop</span>
           </button>
         </div>

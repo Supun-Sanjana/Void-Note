@@ -39,8 +39,6 @@ const Testermonial = () => {
       </p>
 
 
-      <div className='flex flex-col md:flex-row justify-center gap-4 max-w-7xl mx-auto'>
-
 
         {testimonials.map((test, index) => (
 
