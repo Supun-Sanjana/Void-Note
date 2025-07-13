@@ -43,7 +43,7 @@ const PricingCard = ({ title, price, duration, features, button, featured }) => 
             
             {/* CTA Button */}
             <button className={`
-                w-full font-semibold py-3 px-4 rounded-lg transition-all duration-300 text-sm sm:text-base
+                w-full font-semibold py-3 px-4 cursor-pointer rounded-lg transition-all duration-300 text-sm sm:text-base
                 ${featured 
                     ? 'bg-[#676BEB] hover:bg-[#5a5ed6] text-white shadow-lg' 
                     : 'bg-white/10 hover:bg-white/20 text-white border border-white/30'

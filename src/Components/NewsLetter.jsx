@@ -27,9 +27,9 @@ const NewsLetter = () => {
             text-white placeholder-white/60 backdrop-blur-sm'
           />
           <button
-            className='bg-white/90 hover:bg-white transition-colors duration-200 
+            className='bg-white/90 hover:bg-white/30 hover:text-white border hover:border-white transition-colors duration-200 
             rounded-lg py-3 px-6 text-[#676BEB] font-semibold whitespace-nowrap
-            backdrop-blur-'
+            cursor-pointer'
           >
             Subscribe to latest updates
           </button>
