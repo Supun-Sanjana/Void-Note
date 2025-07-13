@@ -1,8 +1,3 @@
-import React from 'react'
-import qt from "../../../Images/qut.svg"
-import woman from "../../../Images/woman.svg"
-import man from "../../../Images/men.svg"
-
 const TestimonialCard = ({ icon, description, image, user, role }) => {
   return (
     <div className='  flex flex-col space-y-4 backdrop-blur-md border border-white/10 
