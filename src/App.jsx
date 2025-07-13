@@ -6,6 +6,7 @@ import ScrollToTop from './Components/ScrollToTop'
 import Features from './Components/Features/Features'
 import Testermonial from './Components/Testermonials/Testermonial'
 import Pricing from './Components/Pricing/Pricing'
+import NewsLetter from './Components/NewsLetter'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
       <Features />
       <Testermonial />
       <Pricing/>
+      <NewsLetter/>
 
     </>
   )
