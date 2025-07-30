@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import logo from '../../Images/logo.png';
-import lightMode from '../../Images/light-mode.svg';
-import darkMode from '../../Images/dark-mod.svg';
+import { MdOutlineLightMode } from "react-icons/md";
+
+import { MdDarkMode } from "react-icons/md";
+
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -15,7 +18,7 @@ const Header = () => {
       <nav className="rounded-b-[40px] backdrop-blur-lg bg-white/10 border-b border-white/20 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
-            {/* Logo */}
+            {/* Logo */}   
             <div className="flex items-center space-x-2">
               <img src={logo} alt="Logo" className="w-8 h-8 cursor-pointer" />
               <span className="text-white font-semibold text-lg cursor-pointer">Void Note</span>
@@ -35,8 +38,8 @@ const Header = () => {
                 Log in
               </button>
               <button className="relative w-8 h-8 group">
-                <img src={lightMode} alt="Light Mode" className="w-full h-full object-contain absolute group-hover:hidden" />
-                <img src={darkMode} alt="Dark Mode" className="w-full h-full object-contain " />
+                <MdOutlineLightMode alt="Light Mode" className=" w-full h-full object-contain absolute group-hover:hidden text-white" />
+               <MdDarkMode alt="Dark Mode" className="w-full h-full object-contain text-white " />
               </button>
               
               {/* Mobile Menu Button */}
