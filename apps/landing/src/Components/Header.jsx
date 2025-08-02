@@ -13,6 +13,13 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  
+  const handleLoginClick = () => {
+    window.location.href = 'http://localhost:3000/login'
+  }
+
+  
+
   return (
     <header className="z-100 sticky top-0">
       <nav className="rounded-b-[40px] backdrop-blur-lg bg-white/10 border-b border-white/20 shadow-lg">
@@ -34,7 +41,9 @@ const Header = () => {
 
             {/* Action Buttons */}
             <div className="flex items-center space-x-3" >
-              <button className="cursor-pointer text-white/90 hover:text-white px-4 py-2 rounded-lg border border-transparent hover:border-white/20 hover:bg-[#676BEB] hover:backdrop-blur-md transition-all duration-200 hidden sm:block">
+              <button className="cursor-pointer text-white/90 hover:text-white px-4 py-2 rounded-lg border border-transparent hover:border-white/20 hover:bg-[#676BEB] hover:backdrop-blur-md transition-all duration-200 hidden sm:block"
+              onClick={handleLoginClick}
+              >
                 Log in
               </button>
               <button className="relative w-8 h-8 group">

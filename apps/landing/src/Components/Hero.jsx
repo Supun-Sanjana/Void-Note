@@ -1,6 +1,11 @@
 import React from 'react'
 import  download from '../../Images/downloadicon.png';
 const Hero = () => {
+
+  const handleRegisterClick = () => {
+    window.location.href = 'http://localhost:3000/registration'
+  }
+
   return (
     <>
      <section className="relative z-10 px-4 sm:px-6 lg:px-8 pt-20 pb-12">
@@ -16,7 +21,9 @@ const Hero = () => {
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button className="text-[#676BEB] px-8 py-3 bg-white cursor-pointer  font-semibold rounded-lg
-           hover:bg-[#676BEB] hover:text-white transition-colors duration-200 shadow-lg w-65">
+           hover:bg-[#676BEB] hover:text-white transition-colors duration-200 shadow-lg w-65"
+           onClick={handleRegisterClick}
+           >
             Get Started                             
           </button>
           <button className="px-8 py-3 backdrop-blur-md cursor-pointer bg-white/10 border
