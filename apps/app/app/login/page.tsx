@@ -7,17 +7,31 @@ import Link from 'next/link';
 import Registration from '../registration/page';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Submit logic will be handled by parent component or form handler
+
+   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=>{
+     e.preventDefault();
+    try {
+      const res = await axios.post('http://localhost:3001/api/v1/users/login', {
+        username:username,
+        password:password
+      })
+
+      alert("success")
+
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
     console.log({ username, password });
-  };
+  
 
 
   const router = useRouter()
@@ -45,6 +59,9 @@ export default function Login() {
     }
     checkUser()
   }, [router])
+
+
+  
 
 
   return (
