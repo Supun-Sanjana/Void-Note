@@ -3,8 +3,14 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, User, Mail, Lock, UserPlus } from 'lucide-react';
 import Link from 'next/link';
+import axios from 'axios';
+import { useRouter } from 'next/navigation'
+
 
 export default function Registration() {
+
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -22,9 +28,30 @@ export default function Registration() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Submit logic will be handled by parent component or form handler
+    try {
+      const res = await axios.post('http://localhost:3001/api/v1/users/register', {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        username: formData.username,
+        email: formData.email,
+        password: formData.password
+
+      })
+
+      if (res.status === 201 ) {
+        router.push('/login');
+      }
+
+
+    } catch (error) {
+      console.log(error);
+
+    }
+
+
+
     console.log(formData);
   };
 

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Settings2, CircleHelp, Bell, User, Search, Menu, X } from 'lucide-react';
+import Link from 'next/link';
 import ButtonComp from '../components/ButtonComp';
 
 
@@ -38,9 +39,17 @@ export default function Layout({ children }: {
 
                             {/* Desktop Navigation */}
                             <nav className="hidden md:flex items-center gap-1">
-                                <ButtonComp name="Dashboard" />
-                                <ButtonComp name="Tasks" />
-                                <ButtonComp name="Notes" />
+                                <Link href='/dashboard'>
+                                    <ButtonComp name="Dashboard" />
+                                </Link>
+
+                                <Link href='/tasks'>
+                                    <ButtonComp name="Tasks" />
+                                </Link>
+
+                                <Link href='/notes'>
+                                    <ButtonComp name="Notes" />
+                                </Link>
                             </nav>
                         </div>
 
@@ -112,8 +121,8 @@ export default function Layout({ children }: {
                                     <button
                                         key={item.name}
                                         className={`block w-full text-left px-0 py-2 text-base transition-colors duration-200 ${item.isActive
-                                                ? 'text-white font-medium'
-                                                : 'text-gray-400 hover:text-white'
+                                            ? 'text-white font-medium'
+                                            : 'text-gray-400 hover:text-white'
                                             }`}
                                     >
                                         {item.name}
@@ -146,8 +155,8 @@ export default function Layout({ children }: {
 
             {/* Main Content */}
             <main className="flex-1 p-4">
-                {children }
-                
+                {children}
+
             </main>
         </div>
     );
