@@ -1,6 +1,5 @@
 'use client'
 
-
 import React, { useState, useEffect , } from 'react';
 import { Eye, EyeOff, User, Lock } from 'lucide-react';
 import Link from 'next/link';
@@ -15,6 +14,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
 
+
    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=>{
      e.preventDefault();
     try {
@@ -23,7 +23,14 @@ export default function Login() {
         password:password
       })
 
-      alert("success")
+      if (res.status === 200) {
+       
+        const tokan = res.data
+        localStorage.setItem('token', tokan)
+        console.log(tokan);
+        
+         router.push('/dashboard')
+      }
 
     } catch (error) {
       console.log(error);
