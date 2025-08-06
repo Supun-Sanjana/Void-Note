@@ -1,5 +1,7 @@
 "use client"
 
+import axios from 'axios'
+import { jwtDecode } from 'jwt-decode'
 import { Plus, History } from 'lucide-react'
 import React, { useState } from 'react'
 
@@ -8,15 +10,51 @@ const Note = () => {
   const [title, setTitle] = useState("")
   const [note, setNote] = useState("")
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  interface TokenPayload {
+    id: number; // or number based on your token structure
+    username: string;
+
+  }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('New Note:', { title, note });
-    // Reset form fields
-    setTitle('');
-    setNote('');
-    setIsOpen(false); // Close the modal after submission
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.log("No token provided !");
+        return;
+
+      }
+
+      const decoded: TokenPayload = jwtDecode(token);
+      const userId = decoded.id
+
+      console.log(userId);
+
+      const res = await axios.post('http://localhost:3001/api/v1/note/create-note', {
+        title: title,
+        content: note,
+        userId: userId
+
+      })
+
+      if (res.status === 201) {
+        alert("Note saved")
+
+      }
+
+
+      // Reset form fields
+      setTitle('');
+      setNote('');
+      setIsOpen(false); // Close the modal after submission
+    } catch (error) {
+      console.log(error);
+
+    }
+
   };
 
   return (
@@ -61,16 +99,16 @@ const Note = () => {
                 <div className="title mb-6">
                   <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-semibold text-white">Add New Note</h2>
-                    <button 
+                    <button
                       onClick={() => setIsOpen(false)}
                       className="text-gray-400 hover:text-white transition-colors"
                     >
                       ✕
                     </button>
                   </div>
-                  <input 
-                    type="text" 
-                    placeholder='Enter note title...' 
+                  <input
+                    type="text"
+                    placeholder='Enter note title...'
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className="w-full p-3 bg-[#2a2a2a] border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
@@ -78,7 +116,7 @@ const Note = () => {
                 </div>
 
                 <div className="details mb-6">
-                  <textarea 
+                  <textarea
                     placeholder="Write your note here..."
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
@@ -88,13 +126,13 @@ const Note = () => {
                 </div>
 
                 <div className="flex gap-3 justify-end">
-                  <button 
+                  <button
                     onClick={() => setIsOpen(false)}
                     className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
                   >
                     Cancel
                   </button>
-                  <button 
+                  <button
                     onClick={(e) => handleSubmit(e as any)}
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                   >
@@ -104,7 +142,7 @@ const Note = () => {
               </div>
             </div>
           )}
-          
+
           {!isOpen && (
             <div className="flex items-center justify-center h-full">
               <div className="text-center text-gray-400">
