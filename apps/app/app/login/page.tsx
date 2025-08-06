@@ -7,16 +7,19 @@ import Registration from '../registration/page';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import ClipLoader from 'react-spinners/ClipLoader'; // Example spinner
+
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading state
     try {
       const res = await axios.post('http://localhost:3001/api/v1/users/login', {
         username: username,
@@ -35,6 +38,8 @@ export default function Login() {
     } catch (error) {
       console.log(error);
 
+    }finally {
+      setIsLoading(false);
     }
   }
   console.log({ username, password });
@@ -73,6 +78,14 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      
+      {isLoading ? (
+        <div className="flex flex-col items-center space-y-4">
+          <ClipLoader color="#4F46E5" size={50} /> {/* Indigo spinner */}
+          <p className="text-white text-lg">Logging in...</p>
+        </div>
+      ) : (
+      
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl p-8 sm:p-10 transition-all duration-300 hover:shadow-2xl">
           <div className="text-center mb-8">
@@ -210,6 +223,8 @@ export default function Login() {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
+
 }
