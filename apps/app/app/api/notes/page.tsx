@@ -22,66 +22,60 @@ const Note = () => {
     username: string;
 
   }
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.log("No token provided !");
-        return;
-
-      }
-      const decoded: TokenPayload = jwtDecode(token);
-      const userId = decoded.id
-
-      // console.log(userId);
-
-      const res = await axios.post('http://localhost:3001/api/v1/note/create-note', {
-        title: title,
-        content: note,
-        userId: userId
-
-      })
-
-      if (res.status === 201) {
-        alert("Note saved")
-
-      }
-
-      fetchNotes();
-
-
-      // Reset form fields
-      setTitle('');
-      setNote('');
-      setIsOpen(false); // Close the modal after submission
-
-    } catch (error) {
-      console.log(error);
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.log("No token provided!");
+      return;
     }
 
-  };
+    const decoded: TokenPayload = jwtDecode(token);
+    const userId = decoded.id;
 
-  const fetchNotes = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.log("No token provided !");
-        return;
+    const res = await axios.post('/api/notes', {
+      title,
+      content: note,
+      userId
+    });
 
-      }
-      const decoded: TokenPayload = jwtDecode(token);
-      const userId = decoded.id;
-      const res = await axios.get(`http://localhost:3001/api/v1/note/user/${userId}`);
-
-      setNoteTitle(res.data.notes);
-
-    } catch (error) {
-      console.log(error);
-
+    if (res.status === 201) {
+      alert("Note saved");
     }
+
+    fetchNotes();
+
+    setTitle('');
+    setNote('');
+    setIsOpen(false);
+
+  } catch (error) {
+    console.log(error);
   }
+};
+
+
+const fetchNotes = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.log("No token provided!");
+      return;
+    }
+
+    const decoded: TokenPayload = jwtDecode(token);
+    const userId = decoded.id;
+
+    const res = await axios.get(`/api/notes?userId=${userId}`);
+
+    setNoteTitle(res.data.notes);
+
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   return (
     <>
