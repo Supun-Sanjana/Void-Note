@@ -4,6 +4,12 @@ import jwt from "jsonwebtoken";
 
 //register
 export const userRegister = async (req, res) => {
+  if (req.method !== "POST") {
+    return res.status(405).json({
+      message: "Method not allowed",
+    });
+  }
+
   try {
     const {
       first_name,
@@ -58,7 +64,10 @@ export const userRegister = async (req, res) => {
       },
     });
 
-    res.status(201).json({
+    console.log("Received body:", req.body);
+
+
+    return res.status(201).json({
       message: "User created successfully.",
       user: {
         id: newUser.User_Id,
@@ -66,7 +75,6 @@ export const userRegister = async (req, res) => {
         email: newUser.Email,
       },
     });
-    console.log("Received body:", req.body);
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -74,6 +82,7 @@ export const userRegister = async (req, res) => {
 };
 //login
 export const userLogin = async (req, res) => {
+
   try {
     const { username, password } = req.body;
     if (!username || !password) {
