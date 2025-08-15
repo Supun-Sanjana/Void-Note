@@ -27,22 +27,19 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
   try {
     const token = localStorage.getItem('token');
+
     if (!token) {
       console.log("No token provided!");
       return;
     }
 
-    const decoded: TokenPayload = jwtDecode(token);
-    const userId = decoded.id;
-
-    const res = await axios.post('/api/notes', {
+    const res = await axios.post('/api/note', {
       title,
-      content: note,
-      userId
-    });
+      content: note,},
+    { headers: { Authorization: `Bearer ${token}` } });
 
     if (res.status === 201) {
-      alert("Note saved");
+      return alert("Note saved");
     }
 
     fetchNotes();
@@ -70,7 +67,7 @@ const fetchNotes = async () => {
 
     const res = await axios.get(`/api/notes?userId=${userId}`);
 
-    setNoteTitle(res.data.notes);
+   return setNoteTitle(res.data.notes);
 
   } catch (error) {
     console.log(error);

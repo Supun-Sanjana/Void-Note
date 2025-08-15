@@ -10,6 +10,8 @@ export async function POST(request: Request) {
   }
 
   const token = authHeader.split(" ")[1];
+
+
   const decoded = jwt.verify(
     token,
     process.env.JWT_SECRET ||
@@ -24,10 +26,9 @@ export async function POST(request: Request) {
     return Response.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const userId = (decoded as JwtPayload & { id: number }).id;
+  const userId = decoded.id;
+  const { title, content } = await request.json();
 
-  const body = await request.json();
-  const { title, content } = body;
 
   if (!title || !content) {
     return Response.json({ message: "Missing fields" }, { status: 400 });
