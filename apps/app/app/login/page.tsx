@@ -21,7 +21,7 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true); // Start loading state
     try {
-      const res = await axios.post('http://localhost:3001/api/v1/users/login', {
+      const res = await axios.post('http://localhost:3000/api/login', {
         username: username,
         password: password
       })
