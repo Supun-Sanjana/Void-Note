@@ -3,59 +3,79 @@
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
 import { Plus, History } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Note = () => {
 
   const [title, setTitle] = useState("")
   const [note, setNote] = useState("")
-
   const [isOpen, setIsOpen] = useState(false);
+  const [noteTitle, setNoteTitle] = useState<{ Title: string }[]>([])
+
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
 
   interface TokenPayload {
-    id: number; // or number based on your token structure
+    id: number;
     username: string;
 
   }
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.log("No token provided !");
-        return;
-
-      }
-
-      const decoded: TokenPayload = jwtDecode(token);
-      const userId = decoded.id
-
-      console.log(userId);
-
-      const res = await axios.post('http://localhost:3001/api/v1/note/create-note', {
-        title: title,
-        content: note,
-        userId: userId
-
-      })
-
-      if (res.status === 201) {
-        alert("Note saved")
-
-      }
-
-
-      // Reset form fields
-      setTitle('');
-      setNote('');
-      setIsOpen(false); // Close the modal after submission
-    } catch (error) {
-      console.log(error);
-
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.log("No token provided!");
+      return;
     }
 
-  };
+    const decoded: TokenPayload = jwtDecode(token);
+    const userId = decoded.id;
+
+    const res = await axios.post('/api/notes', {
+      title,
+      content: note,
+      userId
+    });
+
+    if (res.status === 201) {
+      alert("Note saved");
+    }
+
+    fetchNotes();
+
+    setTitle('');
+    setNote('');
+    setIsOpen(false);
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+const fetchNotes = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.log("No token provided!");
+      return;
+    }
+
+    const decoded: TokenPayload = jwtDecode(token);
+    const userId = decoded.id;
+
+    const res = await axios.get(`/api/notes?userId=${userId}`);
+
+    setNoteTitle(res.data.notes);
+
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   return (
     <>
@@ -81,12 +101,17 @@ const Note = () => {
             {/* Scrollable content - flex-1 takes remaining space */}
             <div className='flex-1 overflow-y-auto scrollbar-hide'>
               <div className='space-y-3 pb-8'>
-                {[...Array(60)].map((_, index) => (
-                  <div key={index} className='p-2 hover:bg-gray-800 rounded cursor-pointer'>
-                    <h2 className='text-sm text-gray-300'>Test Note {index + 1}</h2>
-                  </div>
-                ))}
+                {noteTitle.length > 0 ? (
+                  noteTitle.map((note, index) => (
+                    <div key={index} className="text-white hover:text-blue-400 cursor-pointer">
+                      {note.Title}
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-400">No notes available</p>
+                )}
               </div>
+
             </div>
           </div>
         </div>
@@ -147,7 +172,7 @@ const Note = () => {
             <div className="flex items-center justify-center h-full">
               <div className="text-center text-gray-400">
                 <h2 className="text-xl mb-2">Welcome to VoidNote</h2>
-                <p>Click "Add New Notes" to create your first note</p>
+                <p>Click "Add New Notes" to create your note</p>
               </div>
             </div>
           )}
