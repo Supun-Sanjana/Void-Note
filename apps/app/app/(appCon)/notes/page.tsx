@@ -50,7 +50,7 @@ const Note = () => {
         setNote("");
         setIsOpen(false);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error creating note:", error);
     }
   };

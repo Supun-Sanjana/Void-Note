@@ -8,6 +8,7 @@ export const verifyToken = (token: string) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     return decoded; // usually an object containing user info, e.g., { userId, email, iat, exp }
   } catch (err) {
+    console.error("Error verifying token:", err);
     return null;
   }
 };

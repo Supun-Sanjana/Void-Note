@@ -59,7 +59,7 @@
 
 
 
-"build": "next build || true",
+"build": "next build",
 
 
 

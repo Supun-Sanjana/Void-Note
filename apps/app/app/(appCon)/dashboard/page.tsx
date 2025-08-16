@@ -1,5 +1,5 @@
 import React from 'react'
-import { Plus,Copyright , SquareCheck, Square, BookText, ListTodo, LayoutDashboard, Calendar, WifiOff } from 'lucide-react';
+import { Copyright , SquareCheck, Square, BookText, ListTodo, LayoutDashboard, Calendar, WifiOff } from 'lucide-react';
 
 const page = () => {
     return (
@@ -96,7 +96,7 @@ const page = () => {
 
             </div>
 
-            
+
 
 
         </div>
@@ -104,9 +104,9 @@ const page = () => {
             <Copyright />
         <p>2025 VoidNote. All rights reserved.</p>
         </div>
-        
+
         </>
-        
+
     )
 }
 
