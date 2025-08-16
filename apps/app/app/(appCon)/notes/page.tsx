@@ -4,13 +4,15 @@ import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
 import { Plus, History } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-
+import { toast } from "sonner"
+import { Trash2 } from 'lucide-react';
 const Note = () => {
 
   const [title, setTitle] = useState("")
   const [note, setNote] = useState("")
   const [isOpen, setIsOpen] = useState(false);
-  const [noteTitle, setNoteTitle] = useState<{ Title: string }[]>([])
+  const [noteTitle, setNoteTitle] = useState<{ Note_Id: number; Title: string }[]>([])
+  const [loadNote, setLoadNote] = useState(false)
 
   useEffect(() => {
     fetchNotes();
@@ -22,60 +24,87 @@ const Note = () => {
     username: string;
 
   }
-// ---------- Frontend: Handle Submit ----------
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+  // ---------- Frontend: Handle Submit ----------
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const userId = localStorage.getItem("userId");
-
-
-  const token = localStorage.getItem("token");
-  if (!token) {
-    console.error("No token provided!");
-    return;
-  }
-
-  try {
-    const res = await axios.post(
-      `/api/note?userId=${userId}`,
-      { title, content: note },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    if (res.status === 201) {
-      fetchNotes();
-
-      // reset form
-      setTitle("");
-      setNote("");
-      setIsOpen(false);
-    }
-  } catch (error: any) {
-    console.error("Error creating note:", error);
-  }
-};
-
-
-
-const fetchNotes = async () => {
-  try {
-    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
     if (!token) {
-      console.log("No token provided!");
+      console.error("No token provided!");
       return;
     }
 
-    const decoded: TokenPayload = jwtDecode(token);
-    const userId = decoded.id;
+    try {
+      const res = await axios.post(
+        `/api/note?userId=${userId}`,
+        { title, content: note },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    const res = await axios.get(`/api/note?userId=${userId}`);
+      if (res.status === 201) {
+        fetchNotes();
 
-   return setNoteTitle(res.data.notes);
+        // reset form
+        setTitle("");
+        setNote("");
+        setIsOpen(false);
+      }
+    } catch (error: any) {
+      console.error("Error creating note:", error);
+    }
+  };
 
+
+
+  const fetchNotes = async () => {
+    try {
+      setLoadNote(true)
+
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error("No token provided!")
+        return;
+      }
+
+      const decoded: TokenPayload = jwtDecode(token);
+      const userId = decoded.id;
+
+      const res = await axios.get(`/api/note?userId=${userId}`);
+
+      setLoadNote(false)
+
+
+      const notes = res.data.notes;
+      return setNoteTitle(notes);
+
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong.")
+
+    }
+  };
+
+  const handleDelete = async (noteId: number) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("No token provided!");
+      return;
+    }
+
+     await axios.delete(`/api/note?noteId=${noteId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    toast.success("Note Deleted Successfully");
+    fetchNotes(); // refresh notes after deletion
   } catch (error) {
-    console.log(error);
+    console.error("Error deleting note:", error);
+    toast.error("Failed to delete note");
   }
 };
+
 
   return (
     <>
@@ -100,17 +129,30 @@ const fetchNotes = async () => {
 
             {/* Scrollable content - flex-1 takes remaining space */}
             <div className='flex-1 overflow-y-auto scrollbar-hide'>
-              <div className='space-y-3 pb-8'>
+              <div className='space-y-3 pb-8 px-2'>
+                {
+                  loadNote &&
+                  <span className="animate-spin text-white ml-2" style={{ animation: "spin 1s linear infinite" }}>Loading...</span>
+                }
+
                 {noteTitle.length > 0 ? (
                   noteTitle.map((note, index) => (
-                    <div key={index} className="text-white hover:text-blue-400 cursor-pointer">
-                      {note.Title}
+                    <div key={index} className="text-white hover:text-blue-400 cursor-pointer group">
+                      <span className="flex items-center justify-between">
+                        {note.Title}
+                        <Trash2 size={20} className="ml-2 opacity-0 text-red-300 group-hover:opacity-100 transition-opacity duration-200"
+                          onClick={() => {
+                            handleDelete(note.Note_Id);
+                          }}
+                        />
+                      </span>
                     </div>
                   ))
                 ) : (
                   <p className="text-gray-400">No notes available</p>
                 )}
               </div>
+
 
             </div>
           </div>

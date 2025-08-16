@@ -71,3 +71,24 @@ export async function GET(request: Request) {
     return Response.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
+
+
+export async function DELETE(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const noteId = searchParams.get("noteId");
+
+  if (!noteId) {
+    return Response.json({ message: "Missing noteId" }, { status: 400 });
+  }
+
+  try {
+    const deletedNote = await DB.note.delete({
+      where: { Note_Id: parseInt(noteId) },
+    });
+
+    return Response.json({ message: "Note deleted successfully", deletedNote }, { status: 200 });
+  } catch (error) {
+    console.error("Error deleting note:", error);
+    return Response.json({ message: "Internal Server Error" }, { status: 500 });
+  }
+}
