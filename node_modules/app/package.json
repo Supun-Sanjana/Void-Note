@@ -59,7 +59,8 @@
 
 
 
-"build": "next build",
+"build": "prisma generate && next build",
+"postinstall": "prisma generate",
 
 
 
