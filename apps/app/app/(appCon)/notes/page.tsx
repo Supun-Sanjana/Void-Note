@@ -22,36 +22,39 @@ const Note = () => {
     username: string;
 
   }
+// ---------- Frontend: Handle Submit ----------
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
+  const userId = localStorage.getItem("userId");
+
+
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.error("No token provided!");
+    return;
+  }
+
   try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      console.log("No token provided!");
-      return;
-    }
-
-    const res = await axios.post('/api/note', {
-      title,
-      content: note,},
-    { headers: { Authorization: `Bearer ${token}` } });
+    const res = await axios.post(
+      `/api/note?userId=${userId}`,
+      { title, content: note },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
     if (res.status === 201) {
-      return alert("Note saved");
+      fetchNotes();
+
+      // reset form
+      setTitle("");
+      setNote("");
+      setIsOpen(false);
     }
-
-    fetchNotes();
-
-    setTitle('');
-    setNote('');
-    setIsOpen(false);
-
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    console.error("Error creating note:", error);
   }
 };
+
 
 
 const fetchNotes = async () => {
@@ -65,7 +68,7 @@ const fetchNotes = async () => {
     const decoded: TokenPayload = jwtDecode(token);
     const userId = decoded.id;
 
-    const res = await axios.get(`/api/notes?userId=${userId}`);
+    const res = await axios.get(`/api/note?userId=${userId}`);
 
    return setNoteTitle(res.data.notes);
 

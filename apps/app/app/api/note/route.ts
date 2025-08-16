@@ -50,3 +50,24 @@ export async function POST(request: Request) {
     return Response.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
+
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const userId = searchParams.get("userId");
+
+  if (!userId) {
+    return Response.json({ message: "Missing userId" }, { status: 400 });
+  }
+
+  try {
+    const notes = await DB.note.findMany({
+      where: { User_Id: parseInt(userId) },
+    });
+
+    return Response.json({ notes }, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching notes:", error);
+    return Response.json({ message: "Internal Server Error" }, { status: 500 });
+  }
+}
