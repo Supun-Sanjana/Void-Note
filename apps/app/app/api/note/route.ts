@@ -1,4 +1,3 @@
-import { createNote } from "@/lib/controllers/NoteController";
 import DB from "@/lib/prisma";
 import jwt, { JwtPayload } from "jsonwebtoken";
 

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, } from 'react';
 import { Eye, EyeOff, User, Lock } from 'lucide-react';
 import Link from 'next/link';
-import Registration from '../registration/page';
+// import Registration from '../registration/page';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';

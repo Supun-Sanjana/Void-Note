@@ -38,6 +38,6 @@ export const createTask = async (req, res) => {
 };
 
 //update task
-export const updateTask = async (req, res)=>{
+// export const updateTask = async (req, res)=>{
 
-}
+// }
