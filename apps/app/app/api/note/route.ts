@@ -10,6 +10,8 @@ export async function POST(request: Request) {
   }
 
   const token = authHeader.split(" ")[1];
+
+
   const decoded = jwt.verify(
     token,
     process.env.JWT_SECRET ||
@@ -24,10 +26,9 @@ export async function POST(request: Request) {
     return Response.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const userId = (decoded as JwtPayload & { id: number }).id;
+  const userId = decoded.id;
+  const { title, content } = await request.json();
 
-  const body = await request.json();
-  const { title, content } = body;
 
   if (!title || !content) {
     return Response.json({ message: "Missing fields" }, { status: 400 });
@@ -46,6 +47,48 @@ export async function POST(request: Request) {
 
   } catch (error) {
     console.error("Error creating note:", error);
+    return Response.json({ message: "Internal Server Error" }, { status: 500 });
+  }
+}
+
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const userId = searchParams.get("userId");
+
+  if (!userId) {
+    return Response.json({ message: "Missing userId" }, { status: 400 });
+  }
+
+  try {
+    const notes = await DB.note.findMany({
+      where: { User_Id: parseInt(userId) },
+    });
+
+    return Response.json({ notes }, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching notes:", error);
+    return Response.json({ message: "Internal Server Error" }, { status: 500 });
+  }
+}
+
+
+export async function DELETE(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const noteId = searchParams.get("noteId");
+
+  if (!noteId) {
+    return Response.json({ message: "Missing noteId" }, { status: 400 });
+  }
+
+  try {
+    const deletedNote = await DB.note.delete({
+      where: { Note_Id: parseInt(noteId) },
+    });
+
+    return Response.json({ message: "Note deleted successfully", deletedNote }, { status: 200 });
+  } catch (error) {
+    console.error("Error deleting note:", error);
     return Response.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
