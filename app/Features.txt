@@ -1,0 +1,4 @@
+...notes
+featch all notes and display 
+display note titles in Recent notes
+add note update with display full note with details
