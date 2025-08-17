@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Settings2, CircleHelp, Bell, User, Search, Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import ButtonComp from '../components/ButtonComp';
+import ButtonComp from '../(components)/ButtonComp';
 
 
 
