@@ -15,7 +15,7 @@ const Header = () => {
 
   const handleLoginClick = () => router.push("/login");
 
-  const sections = ["features", "pricing", "testimonial", "newsletter"];
+  const sections = ["features", "testimonial", "pricing", "newsletter"];
 
   // Scroll to section and close mobile menu if open
   const handleScroll = (id: string) => {

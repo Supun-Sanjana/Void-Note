@@ -20,7 +20,7 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true); // Start loading state
     try {
-      const res = await axios.post('https://void-note.vercel.app/login', {
+      const res = await axios.post('http://localhost:3000/login', {
         username: username,
         password: password
       })
