@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { MdOutlineLightMode, MdDarkMode } from "react-icons/md";
 
 import logo from "@/public/logo.png";
 
@@ -16,7 +15,16 @@ const Header = () => {
 
   const handleLoginClick = () => router.push("/login");
 
+  const sections = ["features", "pricing", "testimonial", "newsletter"];
 
+  // Scroll to section and close mobile menu if open
+  const handleScroll = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsMenuOpen(false); // close mobile menu
+  };
 
   return (
     <header className="z-50 sticky top-0">
@@ -26,11 +34,7 @@ const Header = () => {
             {/* Logo */}
             <div className="flex items-center space-x-2">
               <Link href="/">
-                <Image
-                  src={logo}
-                  alt="Logo"
-                  className="w-8 h-8 cursor-pointer"
-                />
+                <Image src={logo} alt="Logo" className="w-8 h-8 cursor-pointer" />
               </Link>
               <span className="text-white dark:text-gray-200 font-semibold text-lg cursor-pointer">
                 Void Note
@@ -39,14 +43,14 @@ const Header = () => {
 
             {/* Desktop Links */}
             <div className="hidden md:flex items-center space-x-8">
-              {["Features", "Pricing", "About us", "Contact"].map((link) => (
-                <Link
-                  key={link}
-                  href="#"
+              {sections.map((section) => (
+                <button
+                  key={section}
+                  onClick={() => handleScroll(section)}
                   className="text-white/90 dark:text-gray-200/90 hover:text-white dark:hover:text-white px-4 py-2 rounded-lg border border-transparent hover:border-white/20 dark:hover:border-gray-400 hover:bg-[#676BEB] hover:backdrop-blur-md transition-all duration-200"
                 >
-                  {link}
-                </Link>
+                  {section.charAt(0).toUpperCase() + section.slice(1)}
+                </button>
               ))}
             </div>
 
@@ -58,8 +62,6 @@ const Header = () => {
               >
                 Log in
               </button>
-
-
 
               {/* Mobile Menu Button */}
               <button
@@ -92,15 +94,16 @@ const Header = () => {
             } overflow-hidden`}
           >
             <div className="px-2 pt-2 pb-3 space-y-1 border-t border-white/20 dark:border-gray-700 mt-4">
-              {["Features", "Pricing", "About us", "Contact"].map((link) => (
-                <Link
-                  key={link}
-                  href="#"
-                  className="block text-white/90 dark:text-gray-200/90 hover:text-white dark:hover:text-white px-3 py-2 rounded-lg hover:bg-[#676BEB] hover:backdrop-blur-md transition-all duration-200"
+              {sections.map((section) => (
+                <button
+                  key={section}
+                  onClick={() => handleScroll(section)}
+                  className="block w-full text-left text-white/90 dark:text-gray-200/90 hover:text-white dark:hover:text-white px-3 py-2 rounded-lg hover:bg-[#676BEB] hover:backdrop-blur-md transition-all duration-200"
                 >
-                  {link}
-                </Link>
+                  {section.charAt(0).toUpperCase() + section.slice(1)}
+                </button>
               ))}
+
               <button
                 onClick={handleLoginClick}
                 className="block w-full text-left text-white/90 dark:text-gray-200/90 hover:text-white dark:hover:text-white px-3 py-2 rounded-lg hover:bg-[#676BEB] hover:backdrop-blur-md transition-all duration-200"

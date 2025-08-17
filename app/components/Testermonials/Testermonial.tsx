@@ -39,7 +39,7 @@ const Testermonial = () => {
   ];
 
   return (
-    <section className="relative z-10 px-4 sm:px-6 lg:px-8 py-20">
+    <section id="testimonial" className="relative z-10 px-4 sm:px-6 lg:px-8 py-20">
       <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 justify-center flex">
         What Our Users Say
       </h2>

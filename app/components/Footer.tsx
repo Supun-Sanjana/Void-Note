@@ -9,7 +9,7 @@ const Footer = () => {
 
         {/* Main Footer Content */}
         <div className='flex flex-col lg:flex-row border-b pb-6 md:pb-8 lg:pb-[30px] gap-8 lg:gap-0 lg:justify-between lg:items-start'>
-        
+
         {/* Company Info Section */}
         <div className='flex-1'>
             <h3 className='text-xl md:text-2xl font-semibold mb-4 md:mb-6 lg:mb-[30px]'>Void Note</h3>
@@ -37,7 +37,7 @@ const Footer = () => {
             <FaLinkedinIn className='size-6 md:size-7 lg:size-8 cursor-pointer hover:opacity-80 hover:scale-110 transition-all duration-200'/>
             <FaTwitter className='size-6 md:size-7 lg:size-8 cursor-pointer hover:opacity-80 hover:scale-110 transition-all duration-200'/>
         </div>
-        
+
         </div>
 
         {/* Copyright Section */}
