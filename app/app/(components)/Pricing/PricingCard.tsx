@@ -2,6 +2,7 @@
 
 import Image, { StaticImageData } from "next/image";
 import tick from "@/public/tick.svg"; // move tick.svg to /public
+import { useRouter } from "next/navigation";
 
 interface PricingCardProps {
   title: string;
@@ -12,6 +13,7 @@ interface PricingCardProps {
   featured: boolean;
 }
 
+
 const PricingCard = ({
   title,
   price,
@@ -20,6 +22,10 @@ const PricingCard = ({
   button,
   featured,
 }: PricingCardProps) => {
+
+
+const route = useRouter();
+
   return (
     <div
       className={`
@@ -69,6 +75,7 @@ const PricingCard = ({
             : "bg-white/10 hover:bg-white/20 text-white border border-white/30"
           }
         `}
+        onClick={() => {route.push("/registration")}}
       >
         {button}
       </button>

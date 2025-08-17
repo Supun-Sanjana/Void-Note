@@ -44,6 +44,7 @@ const Note = () => {
 
       if (res.status === 201) {
         fetchNotes();
+        toast.success("Note Created Successfully");
 
         // reset form
         setTitle("");

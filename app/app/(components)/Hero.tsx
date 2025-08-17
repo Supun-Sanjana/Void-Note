@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import downloadIcon from "@/public/downloadicon.png"; // ✅ place image in /public folder
+import { toast } from "sonner"
+import { useState } from "react";
 
 const Hero = () => {
   const router = useRouter();
@@ -36,6 +38,10 @@ const Hero = () => {
             className="px-8 py-3 backdrop-blur-md cursor-pointer bg-white/10 border
            border-white/20 text-white font-semibold rounded-lg hover:bg-white/20
            transition-all duration-200 flex items-center space-x-2"
+
+            onClick={() => {
+              toast.info("Download for Desktop coming soon!")
+            }}
           >
             <Image
               src={downloadIcon}
