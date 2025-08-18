@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const NewsLetter = () => {
+
+  const [email, setEmail] = useState('');
 
   return (
     <div id='newsletter' className='relative flex flex-col items-center my-[30px] mx-auto
@@ -30,6 +32,8 @@ const NewsLetter = () => {
             className='bg-white/90 hover:bg-white/30 hover:text-white border hover:border-white transition-colors duration-200
             rounded-lg py-3 px-6 text-[#676BEB] font-semibold whitespace-nowrap
             cursor-pointer'
+          
+
           >
             Subscribe to latest updates
           </button>

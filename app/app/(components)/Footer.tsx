@@ -8,7 +8,7 @@ import { FaTwitter } from "react-icons/fa6";
 
 const Footer = () => {
 
-    
+
 
     return (
 
@@ -28,21 +28,13 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* Navigation Links Section */}
-                <div className='flex-1 flex justify-start lg:justify-center'>
-                    <div className='flex-row  sm:flex-row lg:flex-col gap-3 sm:gap-4 lg:gap-2'>
-                        <a href="" className='pr-3 underline hover:no-underline transition-all duration-200 text-sm md:text-base'>About Us</a>
-                        <a href="" className='pr-3 underline hover:no-underline transition-all duration-200 text-sm md:text-base'>Pricing</a>
-                        <a href="" className='pr-3 underline hover:no-underline transition-all duration-200 text-sm md:text-base'>Contact</a>
-                        <a href="" className='underline hover:no-underline transition-all duration-200 text-sm md:text-base'>Features</a>
-                    </div>
-                </div>
+
 
                 {/* Social Media Section */}
                 <div className='flex gap-4 md:gap-6 flex-1 justify-start lg:justify-end'>
-                    <FaGithub className='size-6 md:size-7 lg:size-8 cursor-pointer hover:opacity-80 hover:scale-110 transition-all duration-200' />
-                    <FaLinkedinIn className='size-6 md:size-7 lg:size-8 cursor-pointer hover:opacity-80 hover:scale-110 transition-all duration-200' />
-                    <FaTwitter className='size-6 md:size-7 lg:size-8 cursor-pointer hover:opacity-80 hover:scale-110 transition-all duration-200' />
+                    <Link href="https://github.com/Supun-Sanjana/Void-Note.git" target='_blank '><FaGithub className='size-6 md:size-7 lg:size-8 cursor-pointer hover:opacity-80 hover:scale-110 transition-all duration-200'/></Link>
+                    <Link href="https://www.linkedin.com" target='_blank '><FaLinkedinIn className='size-6 md:size-7 lg:size-8 cursor-pointer hover:opacity-80 hover:scale-110 transition-all duration-200' /></Link>
+                    <Link href="https://x.com" target='_blank '><FaTwitter className='size-6 md:size-7 lg:size-8 cursor-pointer hover:opacity-80 hover:scale-110 transition-all duration-200' /></Link>
                 </div>
 
             </div>
