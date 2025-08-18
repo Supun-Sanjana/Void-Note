@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "public"."Task" ALTER COLUMN "Details" DROP NOT NULL,
+ALTER COLUMN "Priority" SET DEFAULT 'Low',
+ALTER COLUMN "Status" SET DEFAULT 'Pending',
+ALTER COLUMN "Due_Date" DROP NOT NULL;
