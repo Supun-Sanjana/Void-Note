@@ -9,13 +9,22 @@ export default function AuthCallback() {
 
   useEffect(() => {
     const handleAuthStateChange = async () => {
-      // Supabase automatically handles the OAuth callback
-      // We just need to redirect the user
-      const { data: { session } } = await supabase.auth.getSession()
-      
-      if (session) {
-        router.push('/dashboard') // or wherever you want to go after login
+      console.log('📌 Callback page loaded')
+
+      // Get session
+      const { data: { session }, error } = await supabase.auth.getSession()
+
+      if (error) {
+        console.error('❌ Error getting session:', error)
       } else {
+        console.log('✅ Session data:', session)
+      }
+
+      if (session) {
+        console.log('➡️ Redirecting to /dashboard')
+        router.push('/dashboard')
+      } else {
+        console.log('⚠️ No session, redirecting to /login?error=auth_failed')
         router.push('/login?error=auth_failed')
       }
     }
@@ -32,3 +41,4 @@ export default function AuthCallback() {
     </div>
   )
 }
+

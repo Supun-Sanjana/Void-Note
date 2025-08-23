@@ -57,10 +57,10 @@ model Note {
 model Task {
   Task_Id      Int      @id @default(autoincrement())
   Title        String
-  Details      String
-  Priority     Priority
-  Status       Status
-  Due_Date     DateTime
+  Details      String?
+  Priority     Priority @default(Low)
+  Status       Status @default(Pending)
+  Due_Date     DateTime?
   Created_At   DateTime @default(now())
   Updated_At   DateTime @updatedAt
   Completed_At DateTime?
