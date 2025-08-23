@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import HashLoader from 'react-spinners/HashLoader';
+import { toast } from 'sonner';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -24,6 +25,8 @@ export default function Login() {
     checkUser();
   }, [router]);
 
+
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -35,6 +38,8 @@ export default function Login() {
       }
     } catch (error) {
       console.log(error);
+      toast.error  ('Login failed. Please check your credentials.');
+
       setIsLoading(false);
     }
   };
