@@ -1,7 +1,11 @@
+"use client"
+
 import { Plus, Square, SquareCheck } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 
 const Task = () => {
+
+    const [addTask, setAddTask ] = useState(false);
 
     return (
         <>
@@ -9,10 +13,22 @@ const Task = () => {
             <div className='w-full h-[170px]  bg-[#141414] px-[30px] rounded-2xl border-1 border-[#3A3D47]'>
                 <div className='flex gap-2 py-[40px] px-[30px]'>
                     <input placeholder='Add a new task ...' type="text" className='pl-[20px] w-full border-[1px] rounded-[5px] mr-3 border-[#3A3D47]' />
-                    <button className='flex gap-2 bg-[#676BEB] px-6 py-1 rounded-[5px]'><Plus /> Add   </button>
+                    <button className='flex gap-2 bg-[#676BEB] px-6 py-1 rounded-[5px] cursor-pointer'
+                        onClick={()=> setAddTask(true)}
+                    ><Plus /> Add   </button>
                 </div>
                 <p className='flex justify-center text-[#717171]'>Press enter to quickly add , or click ‘Add Task’ </p>
             </div>
+
+            {addTask && (
+                <div className="con w-[300px] ">
+                    <div className="title">
+                        <input type="text" placeholder='Title' />
+                    </div>
+
+                    <button onClick={()=>setAddTask(false)}>Close</button>
+                </div>
+            )}
 
             <div className="content">
                 <h2 className="text-2xl mt-10 ml-2">Tasks</h2>
