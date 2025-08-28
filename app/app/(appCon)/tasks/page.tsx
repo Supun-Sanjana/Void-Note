@@ -1,7 +1,7 @@
 import { Plus } from 'lucide-react'
 import React from 'react'
 
-const task = () => {
+const Task = () => {
     return (
         <div>
 
@@ -19,4 +19,4 @@ const task = () => {
     )
 }
 
-export default task
+export default Task

@@ -4,9 +4,15 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import downloadIcon from "@/public/downloadicon.png"; // ✅ place image in /public folder
 import { toast } from "sonner"
-import { useState } from "react";
+import { useEffect } from "react";
+import { gsap } from "gsap";
+
 
 const Hero = () => {
+
+  
+
+
   const router = useRouter();
 
   const handleRegisterClick = () => {
