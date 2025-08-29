@@ -1,7 +1,7 @@
 import React from 'react'
 import { Copyright , SquareCheck, Square, BookText, ListTodo, LayoutDashboard, Calendar, WifiOff } from 'lucide-react';
 
-const Page = () => {
+const Dashboard = () => {
   return (
     <>
       <div className="bg-black min-h-screen px-10 py-6">
@@ -94,4 +94,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default Dashboard

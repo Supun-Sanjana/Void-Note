@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from "react-hook-form"
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from 'sonner';
 
 const schema = z.object({
   first_name: z.string()
@@ -47,9 +48,26 @@ export default function Registration() {
         email: data.email,
         password: data.password
       });
+       if (res.status === 200) toast.success('Registration successful! Please log in.');
       if (res.status === 201) router.push('/login');
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+
+      if (axios.isAxiosError(error) && error.response) {
+
+        if (error.response.status === 409) {
+          toast.error('Username or email already in use.');
+        } else if (error.response.status === 400) {
+          toast.error('User already exists. Please log in.');
+        } else if (error.response.status === 500) {
+          toast.error('Server error. Please try again later.');
+        } else {
+          toast.error('Registration failed. Please try again.');
+        }
+      } else {
+        toast.error('Network error. Please check your connection.');
+      }
+
+
     }
   };
 
