@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Plus, Square, SquareCheck } from 'lucide-react'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 type Priority = "Low" | "Medium" | "High";
 type Status = "Pending" | "InProgress" | "Completed";
@@ -19,19 +20,39 @@ const Task = () => {
 
     const [addTask, setAddTask] = useState(false);
 
-    const { handleSubmit, register } = useForm();
+    const { handleSubmit, register, reset } = useForm();
 
-    const submit = async (data:object)=>{
-        console.log(data);
+const submit = async (taskData: object) => {
+  const token = localStorage.getItem("token");
 
-        try {
-            const res = await axios.post('/api/tasks', data)
-        } catch (err :any) {
-            console.log(err.message);
+  if (!token) {
+    toast.error("No token provided !");
+    return;
+  }
 
-        }
+  try {
+    const res = await axios.post(
+      "/api/tasks",
+      taskData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
+    if (res.status === 201) {
+      toast.success("Task created !");
+      setAddTask(false);
+
+
+       reset({ title: "", details: "", priority: "Low", due_date: "" });
     }
+  } catch (err: any) {
+    toast.error(err.message);
+  }
+};
+
 
     return (
         <>
@@ -119,9 +140,9 @@ const Task = () => {
                                 >
                                     Cancel
                                 </button>
-                                <button className="px-4 py-1 bg-[#676BEB] text-white rounded">
-                                    Save
-                                </button>
+                                <input type='submit' value=" Save" className="px-4 py-1 bg-[#676BEB] text-white rounded" />
+
+
                             </div>
                         </div>
                     </div>

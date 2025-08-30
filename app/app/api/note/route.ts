@@ -1,4 +1,4 @@
-import DB from "@/lib/prisma";
+import { DB } from "../../../lib/prisma";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 
