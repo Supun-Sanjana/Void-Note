@@ -1,15 +1,51 @@
-import { userRegister } from "@/lib/controllers/UserController";
+import { DB } from "@/lib/prisma";
+import bcrypt from "bcryptjs";
 
-// in app router we can't use `req, res ` directly so you'd adapt it:
+
+
 export async function POST(request: Request) {
-  const body = await request.json();
+  const { first_name, last_name, username, email, password } =
+    await request.json();
 
-  // {status:(code:number) --> status is a property on res that’s a function.
-  const res = {
-    status: (code: number) => ({
-      json: (data: any) => Response.json(data, { status: code }),
-    }),
-  };
-  return userRegister({ method: "POST", body }, res);
-  
+  if (!first_name || !last_name || !username || !email || !password) {
+    return Response.json(
+      { message: "All fields are required" },
+      { status: 400 }
+    );
+  }
+
+  try {
+   const existingUser = await DB.user.findFirst({
+  where: {
+    OR: [
+      { Username: username },
+      { Email: email }
+    ],
+  },
+});
+
+
+    if (existingUser) {
+      return Response.json(
+        { message: "Username or email is already registered!" },
+        { status: 409 }
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await DB.user.create({
+      data: {
+        First_Name: first_name,
+        Last_Name: last_name,
+        Username: username,
+        Email: email,
+        Password: hashedPassword,
+      },
+    });
+
+    return Response.json({ message: "user created" }, { status: 201 });
+  } catch (error: any) {
+    console.log(error.message);
+  }
 }

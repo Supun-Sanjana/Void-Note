@@ -2,61 +2,95 @@
 
 import axios from 'axios';
 import { Plus, Square, SquareCheck } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { columns, TasksTable } from "./columns"
+import { DataTable } from "./data-table"
+import { jwtDecode } from 'jwt-decode';
 
-type Priority = "Low" | "Medium" | "High";
-type Status = "Pending" | "InProgress" | "Completed";
-
-interface Tasks {
-    title: string,
-    details?: string,
-    priority: Priority,
-    status: Status
+interface TokenPayload {
+    id: number;
+    username: string;
 }
 
 const Task = () => {
-
     const [addTask, setAddTask] = useState(false);
-
+    const [data, setData] = useState<TasksTable[]>([]);
     const { handleSubmit, register, reset } = useForm();
 
-const submit = async (taskData: object) => {
-  const token = localStorage.getItem("token");
+    useEffect(() => {
+        getData();
+    }, []);
 
-  if (!token) {
-    toast.error("No token provided !");
-    return;
-  }
+    const submit = async (taskData: object) => {
+        const token = localStorage.getItem("token");
 
-  try {
-    const res = await axios.post(
-      "/api/tasks",
-      taskData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+        if (!token) {
+            toast.error("No token provided !");
+            return;
+        }
 
-    if (res.status === 201) {
-      toast.success("Task created !");
-      setAddTask(false);
+        try {
+            const res = await axios.post(
+                "/api/tasks",
+                taskData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (res.status === 201) {
+                toast.success("Task created !");
+                setAddTask(false);
 
 
-       reset({ title: "", details: "", priority: "Low", due_date: "" });
+                reset({ title: "", details: "", priority: "Low", due_date: "" });
+            }
+        } catch (err: any) {
+            toast.error(err.message);
+        }
+    };
+
+    const getData = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                toast.error("No token provided!")
+                return;
+            }
+
+            const decoded: TokenPayload = jwtDecode(token);
+            const userId = decoded.id;
+
+            const res = await axios.get(`/api/tasks?userId=${userId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            const tasks = res.data.tasks.map((t: any) => ({
+                id: t.Task_Id,
+                title: t.Title,
+                status: t.Status,
+                priority: t.Priority,
+                due_date: t.Due_Date ? new Date(t.Due_Date).toLocaleDateString() : "",
+            }));
+
+            setData(tasks);
+
+            return;
+
+        } catch (error) {
+            console.log(error);
+            toast.error("Something went wrong.")
+
+        }
     }
-  } catch (err: any) {
-    toast.error(err.message);
-  }
-};
-
 
     return (
         <>
-            <form onSubmit={handleSubmit(submit)}>
+            <form onSubmit={handleSubmit(submit)} className='mb-5'>
 
                 <div className='w-full h-[170px]  bg-[#141414] px-[30px] rounded-2xl border-1 border-[#3A3D47]'>
                     <div className='flex gap-2 py-[40px] px-[30px]'>
@@ -150,51 +184,8 @@ const submit = async (taskData: object) => {
 
             </form>
 
+            <DataTable columns={columns} data={data} />
 
-
-            <div className="content">
-                <h2 className="text-2xl mt-10 ml-2">Tasks</h2>
-                <div className="mt-5 space-y-3">
-                    {/* Task Item */}
-                    <div className="task flex items-center text-white bg-[#040404] p-2 rounded-[5px]">
-                        <label className="flex items-center space-x-3 cursor-pointer">
-                            <input type="checkbox" className="peer sr-only" />
-
-                            <div className="w-5 h-5 border-2 border-[#676BEB] rounded-sm flex items-center justify-center
-                                            peer-checked:bg-[#676BEB] transition-colors">
-                                <svg className="hidden w-3 h-3 text-white peer-checked:block" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                            </div>
-
-                            <span className="peer-checked:line-through peer-checked:text-gray-400">
-                                Complete this task
-                            </span>
-                        </label>
-                    </div>
-
-
-                    <div className="task flex items-center text-white bg-[#040404] p-2 rounded-[5px]">
-                        <Square style={{ color: '#676BEB' }} />
-                        <p className="ml-2">Design new user onboarding flow</p>
-                    </div>
-
-                    <div className="task flex items-center text-white bg-[#040404] p-2 rounded-[5px]">
-                        <Square style={{ color: '#676BEB' }} />
-                        <p className="ml-2">Update project documentation</p>
-                    </div>
-
-                    <div className="task flex items-center text-white bg-[#040404] p-2 rounded-[5px]">
-                        <Square style={{ color: '#676BEB' }} />
-                        <p className="ml-2">Fix bugs in the authentication module</p>
-                    </div>
-
-                    <div className="task flex items-center text-white bg-[#040404] p-2 rounded-[5px]">
-                        <Square style={{ color: '#676BEB' }} />
-                        <p className="ml-2">Plan Q3 marketing strategy</p>
-                    </div>
-                </div>
-            </div>
 
 
         </>

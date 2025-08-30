@@ -10,7 +10,6 @@ export async function POST(request: Request){
 
       const token = authHeader.split(" ")[1];
 
-
       const decoded = jwt.verify(
         token,
         process.env.JWT_SECRET ||
@@ -45,6 +44,27 @@ export async function POST(request: Request){
         return Response.json({ message: "Task created", newTask }, { status: 201 });
       } catch (e:any) {
         console.log(e.message);
-
+        return Response.json({ message: "Something went wrong" }, { status: 500 });
       }
+}
+
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const userId = searchParams.get("userId");
+
+  if (!userId) {
+    return Response.json({ message: "Missing userId" }, { status: 400 });
+  }
+
+  try {
+    const tasks = await DB.task.findMany({
+      where: { User_Id: parseInt(userId) },
+    });
+
+    return Response.json({ tasks }, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching notes:", error);
+    return Response.json({ message: "Internal Server Error" }, { status: 500 });
+  }
 }

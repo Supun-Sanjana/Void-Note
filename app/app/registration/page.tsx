@@ -25,15 +25,25 @@ const schema = z.object({
   password: z.string()
     .min(5, { message: "Password must be at least 5 characters" })
     .max(15, { message: "Password must be at most 15 characters" }),
+  confirm_password: z.string()
+    .min(5, { message: "Password must be at least 5 characters" })
+    .max(15, { message: "Password must be at most 15 characters" }),
   terms: z.boolean()
     .refine(val => val === true, { message: "You must accept the terms" }),
+})
+
+.refine((data) => data.password === data.confirm_password, {
+  message: "Passwords do not match",
+  path: ["confirm_password"], // <-- error will show up under confirm_password
 });
+
 
 type FormData = z.infer<typeof schema>;
 
 export default function Registration() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [showConformPassword, setShowConformPassword] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema)
@@ -168,6 +178,31 @@ export default function Registration() {
                   <Eye className="h-5 w-5 text-gray-400 hover:text-gray-200" />}
               </button>
               {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-200 mb-1">Confirm Password</label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Lock className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                {...register('confirm_password')}
+                type={showConformPassword ? 'text' : 'password'}
+                autoComplete="new-password"
+                className="block w-full pl-10 pr-10 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Confirm password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConformPassword(!showConformPassword)}
+                className="cursor-pointer absolute inset-y-0 right-0 pr-3 flex items-center"
+              >
+                {showConformPassword ? <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-200" /> :
+                  <Eye className="h-5 w-5 text-gray-400 hover:text-gray-200" />}
+              </button>
+              {errors.confirm_password && <p className="text-red-500 text-xs mt-1">{errors.confirm_password.message}</p>}
             </div>
           </div>
 

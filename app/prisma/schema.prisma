@@ -15,9 +15,9 @@ enum Priority {
 }
 
 enum Status {
-  Pending
+  InProgress
   Pause
-  Complete
+  Completed
 }
 
 model User {
@@ -28,7 +28,7 @@ model User {
   Email           String   @unique
   Password        String
   Profile_Pic_Url String?
-  Is_Active       Boolean?
+  Is_Active       Boolean @default(true)
   Created_At      DateTime @default(now())
   Updated_At      DateTime @updatedAt
   Last_Login      DateTime @default(now())
@@ -40,7 +40,7 @@ model User {
 model Note {
   Note_Id    Int      @id @default(autoincrement())
   Title      String
-  Content    String
+  Content    String ?
   Created_At DateTime @default(now())
   Updated_At DateTime @updatedAt
 
@@ -54,7 +54,7 @@ model Task {
   Title        String
   Details      String?
   Priority     Priority @default(Low)
-  Status       Status @default(Pending)
+  Status       Status @default(InProgress)
   Due_Date     DateTime?
   Created_At   DateTime @default(now())
   Updated_At   DateTime @updatedAt
