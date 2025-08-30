@@ -1,7 +1,7 @@
 "use client"
 
 import axios from 'axios';
-import { Plus, Square, SquareCheck } from 'lucide-react'
+import { Plus, Trash2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -48,6 +48,7 @@ const Task = () => {
 
 
                 reset({ title: "", details: "", priority: "Low", due_date: "" });
+                getData();
             }
         } catch (err: any) {
             toast.error(err.message);
@@ -108,6 +109,15 @@ const Task = () => {
                     </div>
                     <p className='flex justify-center text-[#717171]'>Press enter to quickly add , or click ‘Add Task’ </p>
                 </div>
+
+                <div className="action flex justify-end my-7">
+                    <div className="w-30 h-7 bg-red-900 rounded border-0 border-white flex justify-center mt-3 items-center gap-2 text-red-300 cursor-pointer">
+                        <Trash2 size={17} />
+                        <button className='cursor-pointer'> Delete All  </button>
+                    </div>
+
+                </div>
+
 
                 {addTask && (
                     <div
