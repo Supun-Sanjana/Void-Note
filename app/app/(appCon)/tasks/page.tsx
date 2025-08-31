@@ -1,11 +1,10 @@
 "use client"
 
-import axios from 'axios';
 import { Plus, Trash2 } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { getColumnsWithDelete, columnsWithoutDelete } from "./columns"
+import { getColumnsWithDelete } from "./columns"
 import { DataTable } from "./data-table"
 import HashLoader from 'react-spinners/HashLoader';
 import { useTasks } from "@/app/hooks/useTasks";
@@ -28,8 +27,6 @@ const Task = () => {
         setAddTask(false);
         reset({ title: "", details: "", priority: "Low", due_date: "" });
     };
-
-
 
     if (error) return (toast.error("Error fetching tasks !"), null);
     if (isLoading) return (
@@ -148,8 +145,6 @@ const Task = () => {
             </form>
 
             <DataTable columns={columns} data={tasks ?? []} />
-
-
 
         </>
     )

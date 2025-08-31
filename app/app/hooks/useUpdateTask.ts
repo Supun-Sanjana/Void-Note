@@ -17,7 +17,7 @@ interface TokenPayload {
   username: string;
 }
 
-const fetchTasks = async (): Promise<Task[]> => {
+const updateTask = async (): Promise<Task[]> => {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("No token provided");
 
@@ -40,6 +40,6 @@ const fetchTasks = async (): Promise<Task[]> => {
 export const useTasks = () => {
   return useQuery<Task[], Error>({
     queryKey: ["tasks"],
-    queryFn: fetchTasks,
+    queryFn: updateTask,
   });
 };
