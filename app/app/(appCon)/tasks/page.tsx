@@ -5,93 +5,46 @@ import { Plus, Trash2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { columns, TasksTable } from "./columns"
+import { getColumnsWithDelete, columnsWithoutDelete } from "./columns"
 import { DataTable } from "./data-table"
-import { jwtDecode } from 'jwt-decode';
+import HashLoader from 'react-spinners/HashLoader';
+import { useTasks } from "@/app/hooks/useTasks";
+import { useAddTask } from "@/app/hooks/useAddTask";
+import { useDeleteTask } from '@/app/hooks/useDeleteTask';
 
-interface TokenPayload {
-    id: number;
-    username: string;
-}
 
 const Task = () => {
     const [addTask, setAddTask] = useState(false);
-    const [data, setData] = useState<TasksTable[]>([]);
     const { handleSubmit, register, reset } = useForm();
+    const { data: tasks, isLoading, error } = useTasks();
 
-    useEffect(() => {
-        getData();
-    }, []);
+    const addTaskMutation = useAddTask();
+    const deleteTaskMutation = useDeleteTask();
 
-    const submit = async (taskData: object) => {
-        const token = localStorage.getItem("token");
+    const columns = getColumnsWithDelete((id: number) => deleteTaskMutation.mutate(id));
 
-        if (!token) {
-            toast.error("No token provided !");
-            return;
-        }
-
-        try {
-            const res = await axios.post(
-                "/api/tasks",
-                taskData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-
-            if (res.status === 201) {
-                toast.success("Task created !");
-                setAddTask(false);
-
-
-                reset({ title: "", details: "", priority: "Low", due_date: "" });
-                getData();
-            }
-        } catch (err: any) {
-            toast.error(err.message);
-        }
+    const onSubmit = (taskData: any) => {
+        addTaskMutation.mutate(taskData);
+        setAddTask(false);
+        reset({ title: "", details: "", priority: "Low", due_date: "" });
     };
 
-    const getData = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                toast.error("No token provided!")
-                return;
-            }
 
-            const decoded: TokenPayload = jwtDecode(token);
-            const userId = decoded.id;
 
-            const res = await axios.get(`/api/tasks?userId=${userId}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-
-            const tasks = res.data.tasks.map((t: any) => ({
-                id: t.Task_Id,
-                title: t.Title,
-                status: t.Status,
-                priority: t.Priority,
-                due_date: t.Due_Date ? new Date(t.Due_Date).toLocaleDateString() : "",
-            }));
-
-            setData(tasks);
-
-            return;
-
-        } catch (error) {
-            console.log(error);
-            toast.error("Something went wrong.")
-
-        }
-    }
+    if (error) return (toast.error("Error fetching tasks !"), null);
+    if (isLoading) return (
+        <div>
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="flex flex-col items-center space-y-4">
+                    <HashLoader color="#4F46E5" size={50} />
+                </div>
+            </div>
+        </div>
+    )
 
     return (
         <>
-            <form onSubmit={handleSubmit(submit)} className='mb-5'>
+            <form onSubmit={handleSubmit(onSubmit)} className='mb-5'>
 
                 <div className='w-full h-[170px]  bg-[#141414] px-[30px] rounded-2xl border-1 border-[#3A3D47]'>
                     <div className='flex gap-2 py-[40px] px-[30px]'>
@@ -194,7 +147,7 @@ const Task = () => {
 
             </form>
 
-            <DataTable columns={columns} data={data} />
+            <DataTable columns={columns} data={tasks ?? []} />
 
 
 
