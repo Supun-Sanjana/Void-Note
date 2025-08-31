@@ -31,7 +31,7 @@ const Note = () => {
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     if (!token) {
-      console.error("No token provided!");
+      toast.error("No token provided!");
       return;
     }
 

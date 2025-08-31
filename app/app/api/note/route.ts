@@ -1,8 +1,8 @@
-import DB from "@/lib/prisma";
+import { DB } from "../../../lib/prisma";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 
-export async function POST(request: Request) {
+export async function POST(request: Request) { 
   const authHeader = request.headers.get("Authorization");
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return Response.json({ message: "Unauthorized" }, { status: 401 });
