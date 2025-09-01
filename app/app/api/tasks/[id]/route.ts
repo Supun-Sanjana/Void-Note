@@ -1,13 +1,14 @@
 import { DB } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
+// The context type must be "context: { params: { id: string } }"
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   context: { params: { id: string } }
 ) {
-
-    const { id } = context.params;
-    const taskId = Number(id); // 👈 must be params.id
+  const { id } = context.params;
+  const taskId = Number(id);
 
   try {
     await DB.task.delete({
@@ -22,4 +23,3 @@ export async function DELETE(
     return NextResponse.json({ error: "Failed to delete task" }, { status: 500 });
   }
 }
-
