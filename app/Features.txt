@@ -1,4 +1,26 @@
-...notes
-featch all notes and display 
-display note titles in Recent notes
-add note update with display full note with details
+[Task Component (Task.tsx)]
+        |
+        |-- uses --> [useTask hook]  ---- fetches tasks (GET /api/tasks?userId)
+        |                                stores tasks in React Query cache ["tasks"]
+        |
+        |-- uses --> [useAddTask hook] -- adds new task (POST /api/tasks)
+        |                                invalidates ["tasks"] query → refetch
+        |
+        |-- uses --> [useDeleteTask hook] - deletes task (DELETE /api/tasks/[id])
+                                         invalidates ["tasks"] query → refetch
+        |
+        |-- passes deleteTask to --> [getColumnsWithDelete(deleteTask)]
+                                           |
+                                           |-- renders DataTable
+                                           |      |
+                                           |      |-- Table rows from tasks
+                                           |      |-- Each row has:
+                                           |           - Title
+                                           |           - Status
+                                           |           - Priority
+                                           |           - Due Date
+                                           |           - Delete button (calls deleteTask(row.original.id))
+                                           |
+                                           |-- Checkbox column for selection
+                                           |
+                                           |-- Update column (optional)

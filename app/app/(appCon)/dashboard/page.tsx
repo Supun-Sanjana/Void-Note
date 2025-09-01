@@ -1,7 +1,19 @@
-import React from 'react'
-import { Copyright , SquareCheck, Square, BookText, ListTodo, LayoutDashboard, Calendar, WifiOff } from 'lucide-react';
+"use client"
 
+import React from 'react'
+import { Copyright, SquareCheck, Square, BookText, ListTodo, LayoutDashboard, Calendar, WifiOff } from 'lucide-react';
+import { useTasks } from '@/app/hooks/useTasks';
+import { useRouter } from 'next/navigation';
 const Dashboard = () => {
+  const { data: tasks, isLoading, error } = useTasks();
+  const inProgressTasks = tasks?.filter(task => task.status === "InProgress") ?? [];
+
+  const router = useRouter();
+
+  if (isLoading) return <p className="text-white">Loading tasks...</p>;
+  if (error) return <p className="text-red-500">Error loading tasks</p>;
+
+
   return (
     <>
       <div className="bg-black min-h-screen px-10 py-6">
@@ -15,18 +27,18 @@ const Dashboard = () => {
             </p>
 
             <div>
-              <h2 className="pb-4 my-3">Pending</h2>
-              <div className="task flex items-center">
-                <Square />
-                <p className="ml-2">Prepare for React component architecture workshop</p>
-              </div>
-            </div>
+              <h2 className="pb-4 my-3">Inprogress</h2>
+              <div className="task  items-center">
+                {inProgressTasks.length > 0 ? (
+                  inProgressTasks.map(task => (
+                    <div key={task.id} className="task flex items-center text-white bg-[#040404] p-2 rounded-[5px] mb-2">
+                      <p className="ml-2">{task.title}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-400">No tasks in progress.</p>
+                )}
 
-            <div>
-              <h2 className="py-4 my-3">Completed</h2>
-              <div className="task flex items-center text-white bg-[#040404] p-2 rounded-[5px]">
-                <SquareCheck style={{ color: '#676BEB' }} />
-                <p className="ml-2">Prepare for React component architecture workshop</p>
               </div>
             </div>
           </div>
@@ -57,16 +69,16 @@ const Dashboard = () => {
               </p>
 
               <div className="flex-col space-y-5">
-                <div className="flex gap-3 items-center">
+                <div className="flex gap-3 items-center cursor-pointer" onClick={()=>router.push("/notes")}>
                   <BookText /> <h2>All Notes</h2>
                 </div>
-                <div className="flex gap-3 items-center">
+                <div className="flex gap-3 items-center cursor-pointer" onClick={()=>router.push("/tasks")}>
                   <ListTodo /> <h2>Tasks</h2>
                 </div>
-                <div className="flex gap-3 items-center">
+                <div className="flex gap-3 items-center  cursor-pointer">
                   <LayoutDashboard /> <h2>Project Boards</h2>
                 </div>
-                <div className="flex gap-3 items-center border-b border-[#3A3D47] pb-7">
+                <div className="flex gap-3 items-center border-b border-[#3A3D47] pb-7  cursor-pointer">
                   <Calendar /> <h2>Calendar</h2>
                 </div>
 
