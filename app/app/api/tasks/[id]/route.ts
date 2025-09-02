@@ -1,19 +1,16 @@
 import { DB } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-
-    const { id } = await params;
-    const taskId = Number(id); // 👈 must be params.id
+  const { id } = await params; // 👈 must await, params is a Promise now
+  const taskId = Number(id);
 
   try {
     await DB.task.delete({
-      where: {
-        Task_Id: taskId,
-      },
+      where: { Task_Id: taskId },
     });
 
     return NextResponse.json({ message: "Deleted!" }, { status: 200 });
@@ -22,4 +19,3 @@ export async function DELETE(
     return NextResponse.json({ error: "Failed to delete task" }, { status: 500 });
   }
 }
-
