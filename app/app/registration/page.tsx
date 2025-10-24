@@ -51,7 +51,7 @@ export default function Registration() {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const res = await axios.post('/api/register', {
+      const res = await axios.post('/api/register/', {
         first_name: data.first_name,
         last_name: data.last_name,
         username: data.username,

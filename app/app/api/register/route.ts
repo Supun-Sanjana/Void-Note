@@ -25,6 +25,7 @@ export async function POST(request: Request) {
 });
 
 
+
     if (existingUser) {
       return Response.json(
         { message: "Username or email is already registered!" },
