@@ -23,14 +23,14 @@ export async function DELETE(
 
 
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
-  const id = parseInt(params.id);
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const {id} =await params;
   const body = await request.json();
   const { title, details, priority, status, due_date } = body;
 
   try {
     const updated = await DB.task.update({
-      where: { Task_Id: id },
+      where: { Task_Id: Number(id) },
       data: {
         Title: title,
         Details: details,
