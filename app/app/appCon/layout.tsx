@@ -45,7 +45,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="bg-black text-white min-h-screen flex flex-col">
       {/* Top Navigation Bar */}
-      <header className="bg-black border-b border-gray-800">
+      <header className="bg-black border-b border-gray-800 sticky top-0">
         <div className="px-4 py-3">
           <div className="flex items-center justify-between">
             {/* Left Section: Logo + Navigation */}
@@ -119,7 +119,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 p-4">
+      <main className="flex-1 p-4 overflow-auto">
 
         <div className="mt-4">
         
