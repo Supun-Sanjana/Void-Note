@@ -1,4 +1,3 @@
-
 import { DB } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -8,33 +7,28 @@ export async function POST(request: Request) {
     const { username, password } = await request.json();
 
     if (!username || !password) {
-      return Response.json({ message: "Some fields are missing..." }, { status: 400 });
+      return Response.json({ success: false, message: "Some fields are missing." }, { status: 400 });
     }
 
-    const user = await DB.user.findFirst({
-      where: { Username: username },
-    });
-
+    const user = await DB.user.findFirst({ where: { Username: username } });
     if (!user) {
-      return Response.json({ message: "User Not Found!" }, { status: 404 });
+      return Response.json({ success: false, message: "User not found." }, { status: 404 });
     }
 
     const isMatch = await bcrypt.compare(password, user.Password);
-
     if (!isMatch) {
-      return Response.json({ message: "Password is wrong!" }, { status: 401 });
+      return Response.json({ success: false, message: "Incorrect password." }, { status: 401 });
     }
 
     const token = jwt.sign(
-      { id: user.User_Id, username: user.Username }, // 👈 consistent `id`
-      process.env.JWT_SECRET ||
-        "wjb437nhgvbcgx2bjucbngjxh32bvhxjngvhdwj6nbxwvdx45562vghbxbfw45cfghxfcgsxs",
+      { id: user.User_Id, username: user.Username },
+      process.env.JWT_SECRET || "fallback_secret_key",
       { expiresIn: "24h" }
     );
 
-    return Response.json({ message: "Success", token }, { status: 200 });
+    return Response.json({ success: true, message: "Login successful", token }, { status: 200 });
   } catch (e: any) {
-     console.error("Login API error:", e);
-    return Response.json({ message: "Try again", error: e.message }, { status: 500 });
+    console.error("Login API error:", e);
+    return Response.json({ success: false, message: "Server error", error: e.message }, { status: 500 });
   }
 }

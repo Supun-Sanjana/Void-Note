@@ -27,22 +27,41 @@ export default function Login() {
 
 
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      const res = await axios.post('/api/login', { username, password });
-      if (res.status === 200) {
-        localStorage.setItem('token', res.data.token);
-        router.push('/dashboard');
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error  ('Login failed. Please check your credentials.');
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setIsLoading(true);
 
-      setIsLoading(false);
+  try {
+    const res = await axios.post('/api/login', { username, password });
+
+    if (res.data.success) {
+      localStorage.setItem('token', res.data.token);
+      toast.success('Login successful!');
+      router.push('/appCon/dashboard');
+    } else {
+      toast.error(res.data.message || 'Login failed.');
     }
-  };
+
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      const status = error.response?.status;
+
+      if (status === 400) toast.error('Some fields are missing.');
+      else if (status === 401) toast.error('Incorrect username or password.');
+      else if (status === 404) toast.error('User not found.');
+      else if (status === 500) toast.error('Internal server error. Please try again.');
+      else toast.error('Network or unknown error.');
+    } else {
+      toast.error('Unexpected error occurred.');
+    }
+
+    console.error('Login Error:', error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
 
   const handleOAuthLogin = async (provider: 'google' | 'github') => {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -60,7 +79,7 @@ export default function Login() {
           <p className="text-indigo-400 text-lg">Logging in...</p>
         </div>
       ) : (
-        <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 overflow-y-auto max-h-[90vh]">
+        <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 ">
           <div className="text-center mb-6">
             <div className="mx-auto bg-gray-700 rounded-full p-3 w-16 h-16 flex items-center justify-center mb-3">
               <Lock className="text-indigo-400 w-8 h-8" />

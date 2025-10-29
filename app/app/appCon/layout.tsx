@@ -56,13 +56,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
               {/* Desktop Navigation */}
               <nav className="hidden md:flex items-center gap-1">
-                <Link href="/dashboard" onClick={()=> handleTabChange("Dashboard")}>
+                <Link href="/appCon/dashboard" onClick={()=> handleTabChange("Dashboard")}>
                   <ButtonComp name="Dashboard" />
                 </Link>
-                <Link href="/tasks" onClick={()=> handleTabChange("Tasks")}  >
+                <Link href="/appCon/tasks" onClick={()=> handleTabChange("Tasks")}  >
                   <ButtonComp name="Tasks" />
                 </Link>
-                <Link href="/notes" onClick={()=> handleTabChange("Notes")}  >
+                <Link href="/appCon/notes" onClick={()=> handleTabChange("Notes")}  >
                   <ButtonComp name="Notes" />
                 </Link>
               </nav>

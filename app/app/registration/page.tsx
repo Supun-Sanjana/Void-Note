@@ -83,7 +83,7 @@ export default function Registration() {
 
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 overflow-y-auto max-h-[90vh]">
+      <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 ">
         <div className="text-center mb-6">
           <div className="mx-auto bg-gray-700 rounded-full p-3 w-16 h-16 flex items-center justify-center mb-3">
             <UserPlus className="text-indigo-400 w-8 h-8" />
