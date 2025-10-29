@@ -34,7 +34,7 @@ export async function POST(request: Request){
                 Title:title,
                 Details:details,
                 Priority:priority,
-                Due_Date:new Date (due_date),
+                Due_Date: due_date ? new Date(due_date) : null,
                 user:{
                    connect:{ User_Id:userId}
                 }

@@ -19,3 +19,29 @@ export async function DELETE(
     return NextResponse.json({ error: "Failed to delete task" }, { status: 500 });
   }
 }
+
+
+
+
+export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+  const id = parseInt(params.id);
+  const body = await request.json();
+  const { title, details, priority, status, due_date } = body;
+
+  try {
+    const updated = await DB.task.update({
+      where: { Task_Id: id },
+      data: {
+        Title: title,
+        Details: details,
+        Priority: priority,
+        Status: status,
+        Due_Date: due_date ? new Date(due_date) : null,
+      },
+    });
+    return Response.json({ message: "Task updated", updated }, { status: 200 });
+  } catch (err) {
+    console.error(err);
+    return Response.json({ message: "Failed to update" }, { status: 500 });
+  }
+}
